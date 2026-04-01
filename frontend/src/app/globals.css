@@ -19,17 +19,7 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding-top: 40px;
 }
 
 * {
@@ -48,3 +38,99 @@ a {
     color-scheme: dark;
   }
 }
+
+.navbar-bg{
+  background-color: #1A4360;
+}
+.mylogo{
+  width: 150px;
+  height: 100px;
+  margin-left: 40px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+.username-icon{
+  background-color: #2D93CA;
+  padding: 10px;
+  border-radius: 50%;
+}
+.sidebar-menu-list{
+  margin-top: 20px;
+  text-align: center;
+}
+.sidebar-menu-list li{
+  padding: 10px;
+  margin: 10px 10px !important;
+  border-radius: 6px;
+}
+.sidebar-menu-list li:hover{
+  background-color: #194F72;
+}
+.sidebar-menu-list li a{
+  display: flex;
+  justify-content: start;
+  gap: 8px;
+}
+.logout-button{
+  margin: 10px 10px !important;
+  border-radius: 6px;
+  background-color: #1C6FA2;
+  padding: 12px;
+  cursor: pointer;
+}
+.logout-button:hover{
+  background-color: #249eeb;
+}
+.active-link{
+  background-color: #1C6FA2;
+}
+.sidebar-headings{
+  display: block;
+  text-align: left;
+  margin-left: 10px;
+  color: #a7d8e1;
+}
+
+/* ////////////////////// Custom scrollbar styles ////////////////////// */
+/* 1. Define the width/height of the scrollbar */
+::-webkit-scrollbar {
+  width: 8px;  /* Vertical scrollbar width */
+  height: 8px; /* Horizontal scrollbar height */
+}
+
+/* 2. Style the Track (the background area) */
+::-webkit-scrollbar-track {
+  background: transparent; /* Makes it look floating */
+  margin-block: 4px;       /* Adds a little space at top/bottom */
+}
+
+/* 3. Style the Thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background: #4b5563;     /* A nice neutral gray (Tailwind gray-600) */
+  border-radius: 20px;     /* Makes it rounded */
+  border: 2px solid transparent; /* Creates a "padding" effect around the thumb */
+  background-clip: content-box;
+}
+
+/* 4. Handle on Hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;     /* Lightens up when touched */
+}
+
+/* 5. Firefox Support (Firefox is more limited in styling) */
+* {
+  scrollbar-width: none;
+  scrollbar-color: #1A4360 transparent;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #3b82f6; /* Blue thumb */
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #1A4360;
+}
+/* ////////////////////////// Custom scrollbar styles ////////////////////// */ 
