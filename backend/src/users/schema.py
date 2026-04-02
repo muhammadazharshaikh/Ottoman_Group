@@ -1,11 +1,28 @@
 from pydantic import BaseModel
+from datetime import datetime
+
+class UserLoginSchema(BaseModel):
+    email:str
+    password:str
 
 class UserSchema(BaseModel):
+    username:str
     email:str
     password:str
     fullName:str
     phoneNumber:str
 
-class UserLoginSchema(BaseModel):
+class UserResponseSchema(BaseModel):
+    userId:int
     email:str
-    password:str
+    username:str
+    fullName:str
+    phoneNumber:str
+    status:bool
+    lastLogin:datetime | None
+
+class UserUpdateSchema(BaseModel):
+    username:str
+    email:str
+    fullName:str
+    phoneNumber:str
