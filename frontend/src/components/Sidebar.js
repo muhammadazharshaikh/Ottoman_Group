@@ -30,6 +30,13 @@ export default function Sidebar({isOpen, setIsOpen}) {
   console.log("Current Pathname:", pathname); // Debugging line to check the current pathname
   const isActiveLink = (path) => pathname === path;
 
+  const handleLogout = (e) =>{
+    e.preventDefault()
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.reload();
+  }
+
   return (
     <>
     {/* ////////////// Hamburger Menu /////////////////// */}
@@ -192,7 +199,7 @@ export default function Sidebar({isOpen, setIsOpen}) {
           </ul>
         </div>
         <hr />
-        <button className="logout-button">Logout</button>
+        <button onClick={handleLogout} className="logout-button">Logout</button>
       </div>
     </>
   );

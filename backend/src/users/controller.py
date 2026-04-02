@@ -28,4 +28,7 @@ def login_user(body:UserLoginSchema, db:Session):
     }
     token = jwt.encode(payload, os.getenv("SECRET_KEY"), os.getenv("ALGORITHM"))
     
-    return token
+    return {
+        "token":token,
+        "user":{"id": user.userId, "username": user.username, "fullName": user.fullName, "email": user.email}
+    }

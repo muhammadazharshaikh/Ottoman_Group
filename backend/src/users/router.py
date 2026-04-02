@@ -8,5 +8,5 @@ user_routes = APIRouter(prefix="/user")
 
 # User Login
 @user_routes.post("/login", status_code=status.HTTP_200_OK)
-def login(body:UserLoginSchema ,db:Session = Depends(get_db)):
+def login(body:UserLoginSchema, db:Session = Depends(get_db)):
     return controller.login_user(body, db)

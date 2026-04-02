@@ -2,6 +2,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import axios from "axios";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -11,12 +12,29 @@ export default function Home() {
     setShowPassword((prev) => !prev);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (email && password) {
-      alert(`Email: ${email}\nPassword: ${password}`);
-      setEmail("");
-      setPassword("");
+      try{
+        const response = await axios.post("http://localhost:8000/user/login", {
+          email,
+          password
+        });
+
+        // Save token 
+        localStorage.setItem("token", response?.data?.token);
+        localStorage.setItem("user", JSON.stringify(response?.data?.user))
+        window.location.href = "/dashboard";
+
+      } catch (err){
+        if(err.response){
+          alert(err.response?.data?.detail);
+        }
+      } finally {
+        setEmail("");
+        setPassword("");
+      }
+        
     } else {
       alert("Please fill in all fields.");
     }
