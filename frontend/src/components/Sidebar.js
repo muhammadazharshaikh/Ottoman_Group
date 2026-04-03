@@ -14,6 +14,7 @@ import {
   House,
   LayoutDashboard,
   ListChecks,
+  LogOut,
   Menu,
   Settings,
   Users,
@@ -21,7 +22,7 @@ import {
   X,
 } from "lucide-react";
 
-export default function Sidebar({isOpen, setIsOpen}) {
+export default function Sidebar({ isOpen, setIsOpen }) {
   const [isClientReportsOpen, setIsClientReportsOpen] = React.useState(false);
   const [isVendorReportsOpen, setIsVendorReportsOpen] = React.useState(false);
 
@@ -30,28 +31,37 @@ export default function Sidebar({isOpen, setIsOpen}) {
   console.log("Current Pathname:", pathname); // Debugging line to check the current pathname
   const isActiveLink = (path) => pathname === path;
 
-  const handleLogout = (e) =>{
-    e.preventDefault()
+  const handleLogout = (e) => {
+    e.preventDefault();
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     window.location.reload();
-  }
+  };
 
   return (
     <>
-    {/* ////////////// Hamburger Menu /////////////////// */}
-    <button 
-    onClick={()=>{setIsOpen(true)}}
-    className="lg:hidden fixed top-4 left-2 text-white cursor-pointer bg-blue-500 z-30 rounded-lg" style={{padding:'8px'}}>
-      <Menu/>
-    </button>
-      <div className={`navbar-bg h-screen ${isOpen ? "w-[20%]" : ""} fixed top-0 text-white border-r-1 border-white z-30 flex flex-col transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full"} 
-        lg:translate-x-0`}>
-          {/* Mobile Close Button */}
+      {/* ////////////// Hamburger Menu /////////////////// */}
+      <button
+        onClick={() => {
+          setIsOpen(true);
+        }}
+        className="lg:hidden fixed top-4 left-2 text-white cursor-pointer bg-blue-500 z-30 rounded-lg"
+        style={{ padding: "8px" }}
+      >
+        <Menu />
+      </button>
+      {/* //////////////////// Side bar /////////////////////// */}
+      <div
+        className={`navbar-bg h-screen ${isOpen ? "lg:w-[20%] w-[70%]" : "w-[0%]"} fixed top-0 text-white border-r-1 border-white z-30 flex flex-col transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full"} 
+        lg:translate-x-0`}
+      >
+        {/* Mobile Close Button */}
         <div className="flex justify-end p-4 lg:hidden">
-          <button onClick={() => setIsOpen(false)}><X size={24} /> </button>
+          <button onClick={() => setIsOpen(false)}>
+            <X size={24} />{" "}
+          </button>
         </div>
-        <div className="mylogo justify-center items-center flex">
+        <div className="mylogo lg:!ml-[40px] lg:w-[150px] h-[100px] justify-center items-center flex">
           <Image
             src={"/images/ottoman.png"}
             width={100}
@@ -199,7 +209,9 @@ export default function Sidebar({isOpen, setIsOpen}) {
           </ul>
         </div>
         <hr />
-        <button onClick={handleLogout} className="logout-button">Logout</button>
+        <button onClick={handleLogout} className={`flex justify-center gap-4 logout-button !mx-[10px] !my-[10px] ${isOpen ? "!p-[12px]" : ""}`}>
+          <LogOut/> Logout
+        </button>
       </div>
     </>
   );

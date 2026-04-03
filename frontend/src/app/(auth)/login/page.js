@@ -2,7 +2,7 @@
 import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import axios from "axios";
+import axios from "@/lib/axiosInstance";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -16,7 +16,7 @@ export default function Home() {
     e.preventDefault();
     if (email && password) {
       try{
-        const response = await axios.post("http://localhost:8000/user/login", {
+        const response = await axios.post("http://localhost:8000/users/login", {
           email,
           password
         });

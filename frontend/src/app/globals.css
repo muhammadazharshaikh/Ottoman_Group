@@ -43,9 +43,6 @@ a {
   background-color: #1A4360;
 }
 .mylogo{
-  width: 150px;
-  height: 100px;
-  margin-left: 40px;
   margin-top: 30px;
   margin-bottom: 10px;
 }
@@ -72,10 +69,8 @@ a {
   gap: 8px;
 }
 .logout-button{
-  margin: 10px 10px !important;
   border-radius: 6px;
   background-color: #1C6FA2;
-  padding: 12px;
   cursor: pointer;
 }
 .logout-button:hover{
