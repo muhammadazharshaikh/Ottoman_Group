@@ -22,7 +22,5 @@ class UserResponseSchema(BaseModel):
     lastLogin:datetime | None
 
 class UserUpdateSchema(BaseModel):
-    username:str
-    email:str
     fullName:str
     phoneNumber:str

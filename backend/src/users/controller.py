@@ -19,6 +19,11 @@ def login_user(body:UserLoginSchema, db:Session):
     if not verify_password(data['password'], user.password):
         raise HTTPException(status_code=401, detail="Incorrect password.")
     
+    # Update User Login Time
+    user.lastLogin = datetime.now()
+    db.commit()
+    db.refresh(user)
+    
     # Generate JWT Token
     expTime = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
     payload = {
@@ -58,6 +63,7 @@ def create_user(body:UserSchema, db:Session):
     return new_user
 
 def update_user(userId:int, body:UserUpdateSchema, db:Session):
+    print(body);
     user = db.query(UserModel).filter(UserModel.userId == userId).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found.")
