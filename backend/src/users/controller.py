@@ -97,6 +97,6 @@ def get_user_by_id(userId:int, db:Session):
     return user
 
 # Get All Users
-def get_all_users(db:Session):
-    users = db.query(UserModel).filter(UserModel.status == True).all()
+def get_all_users(db:Session, user:UserSchema):
+    users = db.query(UserModel).filter(UserModel.status == True, UserModel.userId != user.userId).all()
     return users

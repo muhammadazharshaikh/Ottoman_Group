@@ -106,6 +106,13 @@ export default function page() {
           </div>
         </div>
       )}
+      {
+        !user && (
+          <div className="flex justify-center items-center">
+            <h1 className="text-2xl !mt-30 font-semibold">Loading...</h1>
+          </div>
+        )
+      }
     </>
   );
 }

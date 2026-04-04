@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from src.utils.db import get_db
 from src.users.schema import UserLoginSchema, UserSchema, UserResponseSchema, UserUpdateSchema
 from src.users import controller
+from src.utils.helper_methods import is_auth
 
 user_routes = APIRouter(prefix="/users")
 
@@ -33,5 +34,5 @@ def get_user_by_id(userId:int, db:Session = Depends(get_db)):
 
 # Get All Users
 @user_routes.get("/all", response_model=list[UserResponseSchema], status_code=status.HTTP_200_OK)
-def get_all_users(db:Session = Depends(get_db)):
-    return controller.get_all_users(db)
+def get_all_users(db:Session = Depends(get_db), user:UserSchema=Depends(is_auth)):
+    return controller.get_all_users(db, user)

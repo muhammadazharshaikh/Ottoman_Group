@@ -4,6 +4,7 @@ import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import axios from "@/lib/axiosInstance";
+import {toast} from "react-toastify";
 
 export default function page() {
   const [username, setUsername] = useState("");
@@ -35,11 +36,12 @@ export default function page() {
       !password ||
       !confirmPassword
     ) {
-      alert("Please fill in all fields.");
+      toast.warn("Please fill in all fields.");
       return;
     }
     if (password != confirmPassword) {
-      alert("Password and Confirm Password are not matched!");
+      toast.warn("Password and Confirm Password are not matched!");
+      return;
     }
     setLoading(true);
     try {
@@ -58,7 +60,7 @@ export default function page() {
       setPassword("");
       setConfirmPassword("");
       setRole("");
-      alert("User Created Successfully!");
+      toast.success("User Created Successfully!");
       setLoading(false);
     } catch (err) {
       setUsername("");

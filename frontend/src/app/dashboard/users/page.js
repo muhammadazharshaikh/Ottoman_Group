@@ -21,9 +21,15 @@ export default function Home() {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("/users/all");
+        const response = await axios.get("/users/all",{
+          headers:{
+            'Authorization': `jwt ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
         setUsers(response.data);
       } catch (error) {
         if (error.response) {

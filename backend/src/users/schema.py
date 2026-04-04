@@ -6,9 +6,9 @@ class UserLoginSchema(BaseModel):
     password:str
 
 class UserSchema(BaseModel):
+    userId:str
     username:str
     email:str
-    password:str
     fullName:str
     phoneNumber:str
 

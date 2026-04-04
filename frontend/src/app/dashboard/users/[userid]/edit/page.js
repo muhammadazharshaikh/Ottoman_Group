@@ -5,6 +5,7 @@ import { ArrowLeft, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import axios from "@/lib/axiosInstance";
+import {toast} from "react-toastify";
 
 export default function page() {
   const { userid } = useParams();
@@ -33,7 +34,7 @@ export default function page() {
     e.preventDefault();
     // Validate form data
     if (!fullName || !phoneNumber || !role) {
-      alert("Please fill in all fields.");
+      toast.warn("Please fill in all fields.");
       return;
     }
     setLoading(true);
@@ -42,7 +43,7 @@ export default function page() {
       fullName,
       phoneNumber
     });
-    alert("User Updated Successfully");
+    toast.success("User Updated Successfully");
     window.location.reload();
 
     } catch (err){
