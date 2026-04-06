@@ -28,7 +28,6 @@ export default function Sidebar({ isOpen, setIsOpen }) {
 
   const pathname = usePathname();
   // Helper function to check if the link is active
-  console.log("Current Pathname:", pathname); // Debugging line to check the current pathname
   const isActiveLink = (path) => pathname === path;
 
   const handleLogout = (e) => {
@@ -95,8 +94,10 @@ export default function Sidebar({ isOpen, setIsOpen }) {
               </Link>
             </li>
             <span className="sidebar-headings">APARTMENT BOOKINGS</span>
-            <li>
-              <Link href="">
+            <li
+              className={isActiveLink("/dashboard/projects") ? "active-link" : ""}
+            >
+              <Link href="/dashboard/projects">
                 <FolderKanban />
                 Projects
               </Link>

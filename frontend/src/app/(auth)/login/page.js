@@ -3,40 +3,40 @@ import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import axios from "@/lib/axiosInstance";
+import { toast } from "react-toastify";
+import FormInput from "@/components/FormInput";
+import PasswordInput from "@/components/PasswordInput";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
+  const [Loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (email && password) {
-      try{
+      try {
+        setLoading(true);
         const response = await axios.post("http://localhost:8000/users/login", {
           email,
-          password
+          password,
         });
 
-        // Save token 
+        // Save token
         localStorage.setItem("token", response?.data?.token);
-        localStorage.setItem("user", JSON.stringify(response?.data?.user))
+        localStorage.setItem("user", JSON.stringify(response?.data?.user));
         window.location.href = "/dashboard";
-
-      } catch (err){
-        if(err.response){
-          alert(err.response?.data?.detail);
+      } catch (err) {
+        if (err.response) {
+          toast.warn(err.response?.data?.detail);
         }
       } finally {
+        setLoading(false);
         setEmail("");
         setPassword("");
       }
-        
     } else {
-      alert("Please fill in all fields.");
+      toast.warn("Please fill in all fields.");
     }
   };
 
@@ -61,49 +61,21 @@ export default function Home() {
             Manage your projects and clients from one place.
           </p>
 
-          <label htmlFor="email" className="!px-6 font-semibold">
-            Email *
-          </label>
-          <div className="relative !mx-6 !my-2">
-            <input
-              type="text"
-              name="email"
-              id="email"
-              className="!p-3 rounded-lg mx-3 w-full focus:bg-[#E8F0FE] border border-gray-300 outline-none focus:border-2 focus:border-blue-700"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <label htmlFor="email" className="!px-6 font-semibold">
-            Password *
-          </label>
-          <div className="relative !mx-6 !my-2">
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              id="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              className="!p-3 rounded-lg mx-3 w-full focus:bg-[#E8F0FE] border border-gray-300 outline-none focus:border-2 focus:border-blue-700"
-              placeholder="Enter your password"
-              required
-            />
-            <button
-              type="button"
-              className="flex items-center absolute inset-y-0 right-6 cursor-pointer"
-              onClick={togglePasswordVisibility}
-            >
-              {showPassword ? (
-                <EyeOff className="text-gray-500" />
-              ) : (
-                <Eye className="text-gray-500" />
-              )}
-            </button>
-          </div>
+          <FormInput
+            label={"Email"}
+            value={email}
+            setValue={setEmail}
+            placeholder="Enter Email"
+            required
+          />
+
+          <PasswordInput
+            label="Password"
+            value={password}
+            setValue={setPassword}
+            required
+          />
+
           <div className="flex justify-end !mx-6 !py-2 text-sm text-blue-700 font-semibold">
             <a href="">Forgot password?</a>
           </div>
@@ -112,7 +84,9 @@ export default function Home() {
               type="submit"
               className="bg-[#195F8C] !px-2 !py-3 text-white font-semibold rounded-lg w-full cursor-pointer"
             >
-              Sign in
+              {
+                Loading==true ? ("Signing...") : ("Sign in") 
+              }
             </button>
           </div>
         </div>

@@ -8,30 +8,37 @@ import DataTable from "@/components/DataTable";
 import {toast} from "react-toastify";
 
 export default function Home() {
-  const [users, setUsers] = useState([]);
+  const [projects, setProjects] = useState([]);
 
   const handleDelete = async (e, id) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
     try {
-      const res = await axios.delete(`/users/delete/${id}`);
+      const res = await axios.delete(`/projects/delete/${id}`,{
+        headers:{
+          'Authorization':`jwt ${token}`,
+          'Content-Type':'application/json'
+        }
+      });
       toast.success("Deleted Successfully");
       window.location.reload();
     } catch (err) {
+      toast.warn(err?.response?.data?.detail);
       console.log("Error Occurred while deleting user ", err);
     }
   };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const fetchUsers = async () => {
+    const fetchProjects = async () => {
       try {
-        const response = await axios.get("/users/all",{
+        const response = await axios.get("/projects/all",{
           headers:{
             'Authorization': `jwt ${token}`,
             'Content-Type': 'application/json'
           }
         });
-        setUsers(response.data);
+        setProjects(response.data);
       } catch (error) {
         if (error.response) {
           console.error("API error:", error.response.data);
@@ -39,19 +46,19 @@ export default function Home() {
       }
     };
 
-    fetchUsers();
+    fetchProjects();
   }, []);
 
   // Columns definition (Memoized for performance)
   const columns = [
     {
-      header: "User ID",
-      accessorKey: "userId",
-      cell: (info) => `USR-0000${info.getValue()}`,
+      header: "Project ID",
+      accessorKey: "id",
+      cell: (info) => `PRJ-0000${info.getValue()}`,
     },
     {
       header: "Name",
-      accessorKey: "fullName",
+      accessorKey: "name",
       cell: (info) => (
         <span className="capitalize text-green-700 rounded-md text-sm font-bold">
           {info.getValue()}
@@ -59,8 +66,24 @@ export default function Home() {
       ),
     },
     {
-      header: "Email",
-      accessorKey: "email",
+      header: "Location",
+      accessorKey: "location",
+    },
+    {
+      header: "Total Flats",
+      accessorKey: "totalFlats",
+    },
+    {
+      header: "Total Floors",
+      accessorKey: "totalFloors",
+    },
+    {
+      header: "Description",
+      accessorKey: "description",
+    },
+    {
+      header: "Created By",
+      accessorKey: "creator.fullName",
     },
     {
       header: "Status",
@@ -74,29 +97,18 @@ export default function Home() {
       ),
     },
     {
-      header: "Last Login",
-      accessorKey: "lastLogin",
-      cell: (info) => (
-        <span
-          className={`font-semibold decoration-2`}
-        >
-          {<GetDateTime ISOString = {info.getValue()} />}
-        </span>
-      ),
-    },
-    {
       header: "Actions",
       id: "actions", // ID zaroori hai agar accessorKey nahi hai
       cell: ({ row }) => (
         <div className="flex gap-4">
           <Link
-            href={`/dashboard/users/${row.original.userId}`}
+            href={`/dashboard/projects/${row.original.id}`}
             className="text-indigo-600 hover:text-indigo-900"
           >
             <Eye size={16} />
           </Link>
           <Link
-            href={`/dashboard/users/${row.original.userId}/edit`}
+            href={`/dashboard/projects/${row.original.id}/edit`}
             className="text-indigo-600 hover:text-indigo-900"
           >
             <Pencil size={16} />
@@ -104,7 +116,7 @@ export default function Home() {
           <button
             className="text-red-600 cursor-pointer hover:text-indigo-900"
             onClick={(e) => {
-              handleDelete(e, row.original.userId);
+              handleDelete(e, row.original.id);
             }}
           >
             <Trash2 size={16} />
@@ -118,20 +130,20 @@ export default function Home() {
     <>
       <div className="flex justify-between">
         <div>
-          <h1 className="text-2xl font-semibold">Users</h1>
+          <h1 className="text-2xl font-semibold">Projects</h1>
           <p className="text-sm text-gray-500">
-            Manage system users and their roles
+            Manage all apartment projects
           </p>
         </div>
-        <Link href="/dashboard/users/create">
+        <Link href="/dashboard/projects/create">
           <button className="bg-[#1C6FA2] text-white !px-2 !py-1 rounded-lg flex items-center gap-2 cursor-pointer text-sm">
             <UserPlus size={20} />
-            Add User
+            Add Project
           </button>
         </Link>
       </div>
       {/* ///////////////////////////////////////// table //////////////////////////////////////// */}
-      <DataTable data={users} columns={columns} />
+      <DataTable data={projects} columns={columns} />
     </>
   );
 }

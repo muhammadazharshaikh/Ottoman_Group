@@ -6,11 +6,11 @@ class UserLoginSchema(BaseModel):
     password:str
 
 class UserSchema(BaseModel):
-    userId:str
     username:str
     email:str
     fullName:str
     phoneNumber:str
+    password:str
 
 class UserResponseSchema(BaseModel):
     userId:int

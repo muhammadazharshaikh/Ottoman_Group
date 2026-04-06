@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from src.utils.db import Base, engine
 from src.users.model import UserModel
 from src.users import router as user_router
+from src.projects import router as project_router
 from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
@@ -25,3 +26,4 @@ app.add_middleware(
 )
 
 app.include_router(user_router.user_routes)
+app.include_router(project_router.project_routes)
