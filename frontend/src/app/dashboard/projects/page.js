@@ -1,5 +1,5 @@
 "use client";
-import { Eye, Pencil, Trash2, User, UserPlus } from "lucide-react";
+import { Eye, Pencil, SquarePlus, Trash2 } from "lucide-react";
 import { useState, useEffect, use, useMemo } from "react";
 import axios from "@/lib/axiosInstance";
 import GetDateTime from "@/components/GetDateTime";
@@ -144,7 +144,7 @@ export default function Home() {
         </div>
         <Link href="/dashboard/projects/create">
           <button className="bg-[#1C6FA2] text-white !px-2 !py-1 rounded-lg flex items-center gap-2 cursor-pointer text-sm">
-            <UserPlus size={20} />
+            <SquarePlus size={20} />
             Add Project
           </button>
         </Link>

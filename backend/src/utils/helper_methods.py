@@ -5,6 +5,7 @@ import jwt
 from jwt import InvalidTokenError
 from src.users.model import UserModel
 from src.projects.model import Projects
+from src.flats.model import Flats
 from src.utils.db import get_db
 import os
 from dotenv import load_dotenv
@@ -60,3 +61,17 @@ def generate_project_id(db: Session):
     
     # 4. Wapis format karo (zfill use hota hai zeros ke liye)
     return f"PRJ-{str(new_id_number).zfill(5)}"
+
+def generate_flat_id(db: Session):
+    last_flat = db.query(Flats).order_by(Flats.id.desc()).first()
+    
+    if not last_flat:
+        return "FLT-00001"
+    
+    last_id_number = int(last_flat.flatId.split('-')[1])
+    
+    # 3. Increment karo
+    new_id_number = last_id_number + 1
+    
+    # 4. Wapis format karo (zfill use hota hai zeros ke liye)
+    return f"FLT-{str(new_id_number).zfill(5)}"
