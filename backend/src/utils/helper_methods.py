@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 import jwt
 from jwt import InvalidTokenError
 from src.users.model import UserModel
+from src.projects.model import Projects
 from src.utils.db import get_db
 import os
 from dotenv import load_dotenv
@@ -41,3 +42,21 @@ def is_auth(request:Request, db:Session = Depends(get_db)):
         return user
     except InvalidTokenError:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You are unauthorized !")
+    
+
+def generate_project_id(db: Session):
+    # 1. Sab se last project uthao
+    last_project = db.query(Projects).order_by(Projects.id.desc()).first()
+    
+    if not last_project:
+        return "PRJ-00001"
+    
+    # 2. Last ID se number nikalo (e.g., "PRJ-00003" -> 3)
+    # last_project.projectId.split('-')[1] se "00003" milega
+    last_id_number = int(last_project.projectId.split('-')[1])
+    
+    # 3. Increment karo
+    new_id_number = last_id_number + 1
+    
+    # 4. Wapis format karo (zfill use hota hai zeros ke liye)
+    return f"PRJ-{str(new_id_number).zfill(5)}"

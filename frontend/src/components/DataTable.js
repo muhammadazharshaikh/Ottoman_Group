@@ -30,6 +30,7 @@ export default function DataTable({ data, columns }) {
       {/* Search Input */}
       <div className="mb-4 flex justify-end">
         <input
+          type='search'
           value={globalFilter ?? ''}
           onChange={(e) => setGlobalFilter(e.target.value)}
           placeholder="Search records..."

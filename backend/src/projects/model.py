@@ -6,6 +6,7 @@ class Projects(Base):
     __tablename__ = "projects"
 
     id = Column(Integer, primary_key=True)
+    projectId = Column(String, unique=True, nullable=False)
     name = Column(String, nullable=False)
     location = Column(String, nullable=False)
     totalFlats = Column(Integer, nullable=False)

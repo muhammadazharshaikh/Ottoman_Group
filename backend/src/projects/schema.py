@@ -9,6 +9,7 @@ class UserMinimal(BaseModel):
 
 class ProjectResponseSchema(BaseModel):
     id:int
+    projectId:str
     name:str
     location:str
     totalFlats:int

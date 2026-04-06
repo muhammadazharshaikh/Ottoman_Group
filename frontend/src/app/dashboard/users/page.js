@@ -91,17 +91,20 @@ export default function Home() {
         <div className="flex gap-4">
           <Link
             href={`/dashboard/users/${row.original.userId}`}
+            title="view"
             className="text-indigo-600 hover:text-indigo-900"
           >
             <Eye size={16} />
           </Link>
           <Link
             href={`/dashboard/users/${row.original.userId}/edit`}
+            title="edit"
             className="text-indigo-600 hover:text-indigo-900"
           >
             <Pencil size={16} />
           </Link>
           <button
+            title="delete"
             className="text-red-600 cursor-pointer hover:text-indigo-900"
             onClick={(e) => {
               handleDelete(e, row.original.userId);

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { ArrowLeft, CircleUserRound, Mail, Phone, UserCheck } from "lucide-react";
+import { ArrowLeft, Building, Mail, Phone, UserCheck } from "lucide-react";
 import Link from "next/link";
 import axios from "@/lib/axiosInstance";
 import GetDateTime from "@/components/GetDateTime";
@@ -38,12 +38,12 @@ export default function page() {
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
         <div className="!my-5">
           <div className="flex gap-4 items-center">
-            <CircleUserRound size={50} />
+            <Building size={50} />
             <div className="">
               <h1 className="text-2xl font-semibold capitalize">
                 {project?.name}
               </h1>
-              <p>User ID: PRJ-0000{project_id}</p>
+              <p>Project ID: {project?.projectId}</p>
             </div>
           </div>
         </div>

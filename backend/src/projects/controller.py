@@ -5,10 +5,17 @@ from src.users.model import UserModel
 from fastapi import HTTPException
 from datetime import datetime
 from sqlalchemy.orm import joinedload
+from src.utils.helper_methods import generate_project_id
 
 # create project
 def create_project(body:ProjectSchema, db:Session, user:UserModel):
+    # check if project exist in same location
+    existing_project = db.query(Projects).filter(Projects.name == body.name, Projects.location == body.location).first()
+    if existing_project:
+        raise HTTPException(status_code=400, detail="Project Already Exist in this location !")
+    new_project_id = generate_project_id(db)
     new_project = Projects(
+    projectId = new_project_id,
     name = body.name,
     location = body.location,
     totalFlats = body.totalFlats,

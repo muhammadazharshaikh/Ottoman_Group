@@ -6,25 +6,33 @@ import GetDateTime from "@/components/GetDateTime";
 import Link from "next/link";
 import DataTable from "@/components/DataTable";
 import {toast} from "react-toastify";
+import ConfirmModal from "@/components/ConfirmModal";
 
 export default function Home() {
   const [projects, setProjects] = useState([]);
+  // Modal states
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
-  const handleDelete = async (e, id) => {
-    e.preventDefault();
+  const handleDeleteClick = (id) => {
+    setSelectedId(id);
+    setIsModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
     const token = localStorage.getItem('token');
     try {
-      const res = await axios.delete(`/projects/delete/${id}`,{
-        headers:{
-          'Authorization':`jwt ${token}`,
-          'Content-Type':'application/json'
-        }
+      await axios.delete(`/projects/delete/${selectedId}`, {
+        headers: { 'Authorization': `jwt ${token}` }
       });
+      
       toast.success("Deleted Successfully");
-      window.location.reload();
+      
+      // Update UI without reload (Optimistic UI or State update)
+      setProjects(projects.filter(p => p.id !== selectedId));
+      
     } catch (err) {
-      toast.warn(err?.response?.data?.detail);
-      console.log("Error Occurred while deleting user ", err);
+      toast.warn(err?.response?.data?.detail || "Delete failed");
     }
   };
 
@@ -53,11 +61,11 @@ export default function Home() {
   const columns = [
     {
       header: "Project ID",
-      accessorKey: "id",
-      cell: (info) => `PRJ-0000${info.getValue()}`,
+      accessorKey: "projectId",
+      cell: (info) => `${info.getValue()}`,
     },
     {
-      header: "Name",
+      header: "Project Name",
       accessorKey: "name",
       cell: (info) => (
         <span className="capitalize text-green-700 rounded-md text-sm font-bold">
@@ -76,10 +84,6 @@ export default function Home() {
     {
       header: "Total Floors",
       accessorKey: "totalFloors",
-    },
-    {
-      header: "Description",
-      accessorKey: "description",
     },
     {
       header: "Created By",
@@ -103,20 +107,23 @@ export default function Home() {
         <div className="flex gap-4">
           <Link
             href={`/dashboard/projects/${row.original.id}`}
+            title="view"
             className="text-indigo-600 hover:text-indigo-900"
           >
             <Eye size={16} />
           </Link>
           <Link
             href={`/dashboard/projects/${row.original.id}/edit`}
+            title="edit"
             className="text-indigo-600 hover:text-indigo-900"
           >
             <Pencil size={16} />
           </Link>
           <button
+            title="delete"
             className="text-red-600 cursor-pointer hover:text-indigo-900"
             onClick={(e) => {
-              handleDelete(e, row.original.id);
+              handleDeleteClick(row.original.id);
             }}
           >
             <Trash2 size={16} />
@@ -144,6 +151,15 @@ export default function Home() {
       </div>
       {/* ///////////////////////////////////////// table //////////////////////////////////////// */}
       <DataTable data={projects} columns={columns} />
+
+      {/* Confirm Modal Implementation */}
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={()=>{setIsModalOpen(false)}}
+        onConfirm={confirmDelete}
+        title="Delete Project?"
+        message="Are you sure you want to delete this project? This data will be gone forever."
+      />
     </>
   );
 }

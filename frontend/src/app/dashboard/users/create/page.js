@@ -158,8 +158,9 @@ export default function page() {
 
         <div className="flex justify-end">
           <button
+            disabled={Loading}
             type="submit"
-            className="bg-[#1C6FA2] !px-4 !py-2 text-white font-semibold rounded-lg !mr-6 cursor-pointer"
+            className={`bg-[#1C6FA2] !px-4 !py-2 text-white font-semibold rounded-lg !mr-6 cursor-pointer ${Loading ? 'opacity-40' : ''}`}
           >
             {Loading == true ? "Creating User ..." : "Create User"}
           </button>

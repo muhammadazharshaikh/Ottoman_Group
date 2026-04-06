@@ -75,7 +75,10 @@ export default function page() {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+      {
+        name != "" ? (
+          <div>
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
         <div className="p-[20px]">
           <div>
             <h1 className="text-2xl font-semibold">Edit Project</h1>
@@ -142,13 +145,21 @@ export default function page() {
 
         <div className="flex justify-end">
           <button
+            disabled={Loading}
             type="submit"
-            className="bg-[#1C6FA2] !px-4 !py-2 text-white font-semibold rounded-lg !mr-6 cursor-pointer"
+            className={`bg-[#1C6FA2] !px-4 !py-2 text-white font-semibold rounded-lg !mr-6 cursor-pointer ${Loading ? 'opacity-40' : ''}`}
           >
             {Loading == true ? "Saving ..." : "Save Changes"}
           </button>
         </div>
       </form>
+          </div>
+        ) : (
+          <div className="flex justify-center items-center !mt-10">
+            <h1>Loading...</h1>
+          </div>
+        )
+      } 
     </>
   );
 }
